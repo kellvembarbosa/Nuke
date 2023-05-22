@@ -236,17 +236,25 @@ private struct LazyImageDemoView: View {
     @State var url = URL(string: "https://kean.blog/images/pulse/01.png")
     @State var isBlured = false
     @State var imageViewId = UUID()
+    
+    var imageProcessors: [ImageProcessing] {
+        #if !os(watchOS)
+        return isBlured ? [ImageProcessors.GaussianBlur()] : []
+        #else
+        return []
+        #endif
+    }
 
     var body: some View {
         VStack {
             Spacer()
-
+            
             LazyImage(url: url) { state in
                 if let image = state.image {
                     image.resizable().aspectRatio(contentMode: .fit)
                 }
             }
-            .processors(isBlured ? [ImageProcessors.GaussianBlur()] : [])
+            .processors(imageProcessors)
             .id(imageViewId) // Example of how to implement retry
 
             Spacer()
