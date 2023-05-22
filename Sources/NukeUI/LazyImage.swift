@@ -270,7 +270,6 @@ private struct LazyImageDemoView: View {
                 Toggle("Apply Blur", isOn: $isBlured)
             }
             .padding()
-            .background(Material.ultraThick)
         }
     }
 }
